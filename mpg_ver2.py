@@ -61,13 +61,17 @@ while 1:
         stream.write("010d\r".encode())
         process("41 0D", 1)
         speed = data[0]
+
+        stream.write("0105\r".encode())
+        process("41 05", 1)
+        coolant_temp = data[0] - 40
         
         stream.write("0110\r".encode())
         process("41 10", 2)
         maf = ((data[0] * 256) + data[1])
         
         mpg = 710.7 * speed / maf
-        print("RPM %f Load %f Speed %f, MAF %f, MPG: %f" % (rpm, load, speed, maf, mpg))
+        print("RPM %f Load %f Speed %f, MAF %f, MPG: %f, Cool Temp: %f" % (rpm, load, speed, maf, mpg, coolant_temp))
         #file = open ("data.txt" , "a")
         #file.write("RPM %f Load %f Speed %f, MAF %f, MPG: %f\r\n" % (rpm, load, speed, maf, mpg))
         #file.close()
