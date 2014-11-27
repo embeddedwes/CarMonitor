@@ -1,6 +1,9 @@
 import serial
 stream = serial.Serial("COM9")
 
+buffer = bytearray(4)
+
+
 def process(command):
         buffer = bytearray()
 
@@ -47,6 +50,9 @@ def process2(command):
                 return ((a*256)+b)
         else:
                 return 0;
+
+def process4(command):
+        return 0;
 
 def wait():
         buffer = bytearray()
