@@ -1,5 +1,5 @@
 import serial
-stream = serial.Serial("COM9")
+stream = serial.Serial("COM3")
 
 data = bytearray(100)
 
@@ -23,7 +23,7 @@ def process(command, count):
                 #print(sub.decode())
 
                 for i in range(count):
-                        data[i] = int(sub[(i * 3):(i * 3) + 2].decode(), 16)
+                        data[i] = int(portion[(i * 3):(i * 3) + 2].decode(), 16)
                 
                 return;
         else:
@@ -56,19 +56,16 @@ while 1:
         
         stream.write("0104\r".encode())
         process("41 04", 1)
-        
+        load = data[0] * (100.0 / 255)
         
         stream.write("010d\r".encode())
         process("41 0D", 1)
-
+        speed = data[0]
         
         stream.write("0110\r".encode())
         process("41 10", 2)
+        maf = ((data[0] * 256) + data[1])
         
-
-        load = 0
-        speed = 100
-        maf = 1
         mpg = 710.7 * speed / maf
         print("RPM %f Load %f Speed %f, MAF %f, MPG: %f" % (rpm, load, speed, maf, mpg))
         #file = open ("data.txt" , "a")
